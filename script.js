@@ -4,7 +4,7 @@ you can create and delete employers and employees. Employees are under their rep
 as an added bonus I made it to where when your selecting to delete something you can see the list with the indexes above in the prompt
 that way you don't have to remember the index. 
 */
-
+// Below creates the class for Employee and defines it with the properties listed. 
 class Employee {
     constructor(name, title, employeeNumber) {
         this.name = name;
@@ -16,11 +16,11 @@ class Employee {
         return `${this.employee.name} is a ${this.employee.title} Employee#${this.employee.employeeNumber}` ;
     } 
 }
-
+// Below creates the Employer class and defines it with the name property as well as creating the array. 
 class Employer {
     constructor(employerName) {
         this.name = employerName;
-        this.employees = [];
+        this.employees = []; // <-- this is the 1 required array. 
     }
 
     addEmployee(employee) {
@@ -36,9 +36,10 @@ class Employer {
     }
 }
 
+// This class creates the menu, and the employers array is contained inside it. 
 class Menu {
     constructor() {
-        this.employers = [];
+        this.employers = []; // <-- this 2nd array is specific to employers
         this.selectedEmployer = null;
     }
 
@@ -97,7 +98,7 @@ class Menu {
 // this will create an employer and add it to the employer array
     createEmployer() {
         let name = prompt('Employers Name:');
-        this.employers.push(new Employer(name));
+        this.employers.push(new Employer(name)); // <-- Here is where I push values to the array.
     }
 // this serves two purposes, it asks what indexed employer you want to view (displaying them all) and then
 // it will let you choose from the employer menu what option you want;
@@ -110,6 +111,9 @@ class Menu {
 Enter the index of the employer you wish to view:
 ${list}
         `);
+        
+        // This part takes the users input to show the values defined already for options that they can enter
+        // when prompted. Part of this was added to the delete menus to make things easier to control in the menu. 
         if (index > -1 && index < this.employers.length) {
             this.selectedEmployer = this.employers[index];
             let description = 'Employer: ' + this.selectedEmployer.name + '\n';
@@ -132,7 +136,8 @@ ${list}
         }
     }
 
-// this method lets you delete an employer as a whole. 
+// this method lets you delete an employer as a whole. I added the ability to see the employers index so that 
+// you can see what your deleting. 
     deleteEmployer() {
         let list = '';
         for (let i = 0; i < this.employers.length; i++) {
@@ -142,12 +147,12 @@ ${list}
 Enter the index of the employer you want to delete:
 ${list}
         `);
-        
+
         if (index > -1 && index < this.employers.length) {
             this.employers.splice(index, 1);
         }
     }
-// this method lets you create an employee
+// this method lets you create an employee.
     createEmployee() {
         let name = prompt("Enter the employees full name:");
         let title = prompt("What is the employees job title?");
@@ -155,18 +160,20 @@ ${list}
         this.selectedEmployer.employees.push(new Employee(name, title, employeeNumber));
     }
 
-// // this method will give a list of the employees for the selected employer, and will then allow you to select which one to delete, 
+// this method will give a list of the employees for the selected employer, and will then allow you to select which one to delete, 
 // this goes a step beyond the functions we did in the teams app built in the lesson. 
     deleteEmployee(){
         let description ="";
-    for (let i = 0; i < this.selectedEmployer.employees.length; i++) {
-    description += i + ') ' + this.selectedEmployer.employees[i].name + " is a " + 
-    this.selectedEmployer.employees[i].title + " with an employee number of: " + 
-    this.selectedEmployer.employees[i].employeeNumber + '\n';
-    }
+        
+        for (let i = 0; i < this.selectedEmployer.employees.length; i++) {
+        description += i + ') ' + this.selectedEmployer.employees[i].name + " is a " + 
+        this.selectedEmployer.employees[i].title + " with an employee number of: " + 
+        this.selectedEmployer.employees[i].employeeNumber + '\n';
+        }
+        
         let index = prompt(`
-        Enter the index of the employee you wish to delete:
-            ${description}
+Enter the index of the employee you wish to delete:
+${description}
         `);
         if (index > -1 && index < this.selectedEmployer.employees.length) {
             this.selectedEmployer.employees.splice(index, 1);
